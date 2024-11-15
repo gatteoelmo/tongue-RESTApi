@@ -20,4 +20,4 @@ const interactionSchema = mongoose.Schema({
         type: String, 
         required: function() { return this.type === 'comment'; } 
     }
-});
+}, {timestamps: true});

@@ -39,11 +39,10 @@ Content-Type: application/json
 }
 
 ### modify a post - u only can change if u are the owner
-PATCH http://localhost:1234/api/posts/67372c3f88c1e0731cb36151
+PATCH http://localhost:1234/api/posts/67377acc81facdf55254407f
 Content-Type: application/json
 
 {
-    "title": "My first post has been modified successfully",
+    "title": "prova con timestampstrue e modificato",
     "user": "67363f1487490ca7c99e67d5"
-
 }

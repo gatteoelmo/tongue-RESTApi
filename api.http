@@ -1,1 +1,25 @@
-GET http://localhost:1234
+### show all users
+GET http://localhost:1234/api/users/
+
+### create a new user
+POST http://localhost:1234/api/users/
+Content-Type: application/json
+
+{
+    "nickname": "7.Ellie",
+    "age": 22,
+    "city": "Santa Cruz de Tenerife"
+}
+
+### modify a user
+PATCH http://localhost:1234/api/users/67363f1487490ca7c99e67d5
+Content-Type: application/json
+
+{
+    "city": "Turin"
+}
+
+### delete a user
+DELETE http://localhost:1234/api/users/67363f1487490ca7c99e67d5
+
+###

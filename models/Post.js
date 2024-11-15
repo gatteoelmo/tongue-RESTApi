@@ -9,24 +9,26 @@ const postSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    insertionDate: {
-        type: Date,
-        required: true
-    },
-    updateDate: {
-        type: Date,
-        default: Date.now
-    },
+    // insertionDate: {
+    //     type: Date,
+    //     default: Date.now
+    // },
+    // updatedAt: {
+    //     type: Date,
+    //     default: Date.now
+    // },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    interations: {
+    interactions: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Interaction'
     }
-});
+},
+
+{ timestamps: true });
 
 // 
 

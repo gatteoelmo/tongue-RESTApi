@@ -22,4 +22,28 @@ Content-Type: application/json
 ### delete a user
 DELETE http://localhost:1234/api/users/67363f1487490ca7c99e67d5
 
-###
+### show all posts
+GET http://localhost:1234/api/posts/
+
+### show a post by id
+GET http://localhost:1234/api/posts/67363f1487490ca7c99e67d5
+
+### create a new post that will has your id in json (you have to login to make a post)
+POST http://localhost:1234/api/posts/
+Content-Type: application/json
+
+{
+    "title": "prova con timestamps true",
+    "content": "prova con timestamps true",
+    "user": "67363f1487490ca7c99e67d5"
+}
+
+### modify a post - u only can change if u are the owner
+PATCH http://localhost:1234/api/posts/67372c3f88c1e0731cb36151
+Content-Type: application/json
+
+{
+    "title": "My first post has been modified successfully",
+    "user": "67363f1487490ca7c99e67d5"
+
+}

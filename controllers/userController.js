@@ -23,7 +23,8 @@ export const userController = {
     createUser: async (req, res) => {
         try {
             const user = await User.create(req.body);
-            res.status(201).json(user);
+            const savedUser = await user.save();
+            res.status(201).json(savedUser);
         } catch (error) {
             res.status(500).json({ message: `from createUser: ${error.message}` });
         }

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import userRoute from "./routes/userRoute.js";
 import postRoute from "./routes/postRoute.js";
+import interactionRoute from "./routes/interactionRoute.js";
 
 const app = express();
 dotenv.config();
@@ -14,7 +15,7 @@ app.use(express.json())
 // setting up routes
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
-// app.use("/api/interactions", interactionRoute);
+app.use("/api/interactions", interactionRoute);
 
 // setting up a server 
 const PORT = process.env.PORT || 3000;

@@ -46,3 +46,36 @@ Content-Type: application/json
     "title": "prova con timestampstrue e modificato",
     "user": "67363f1487490ca7c99e67d5"
 }
+
+### delete a post - u only can delete if u are the owner
+DELETE http://localhost:1234/api/posts/67377acc81facdf55254407f
+
+
+### show all interactions
+GET http://localhost:1234/api/interactions/
+
+### show a interaction by id
+GET http://localhost:1234/api/interactions/673792cc7a2ed0ae59057b58
+
+### create a new interaction    
+POST http://localhost:1234/api/interactions/
+Content-Type: application/json
+
+{
+    "type": "comment",
+    "post": "67377acc81facdf55254407f",
+    "user": "67363f1487490ca7c99e67d5",
+    "content": "commento 5"
+}
+
+### modify a interaction - u only can change if u are the owner
+PATCH http://localhost:1234/api/interactions/673791361edbfdb6d4644519
+Content-Type: application/json
+
+{
+    "user" : "673721fcbc8b496d6c78b30b",
+    "type": "like"
+}
+
+### delete a interaction - u only can delete if u are the owner
+DELETE http://localhost:1234/api/interactions/67379282971ffe8ee85417a9

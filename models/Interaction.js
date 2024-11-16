@@ -21,3 +21,5 @@ const interactionSchema = mongoose.Schema({
         required: function() { return this.type === 'comment'; } 
     }
 }, {timestamps: true});
+
+export const Interaction = mongoose.model('Interaction', interactionSchema);

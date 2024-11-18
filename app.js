@@ -20,6 +20,7 @@ app.use("/api/interactions", interactionRoute);
 // setting up a server 
 const PORT = process.env.PORT || 1234;
 
+// starting the server at the specified port
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
 });

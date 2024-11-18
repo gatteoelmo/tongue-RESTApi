@@ -5,19 +5,10 @@
     <img src="public/favicon.png" alt="Logo" width="80" height="80">
   </a> -->
 
-<h3 align="center">Tongue_API</h3>
+<h1">Tongue_API</h3>
 
-  <p align="center">
+  <p>
     RESTful API with full CRUD (Create, Read, Update, Delete) capabilities, developed as part of the "Tongue" Node.js project for <a href="https://www.start2impact.it">start2impact</a>. 
-    <br />
-    <a href="https://tongue-api.vercel.app/docs/"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://tongue-api.vercel.app/">Live Server</a>
-    ·
-    <a href="https://github.com/Dantalian5/Tongue-API/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/Dantalian5/Tongue-API/issues">Request Feature</a>
   </p>
 </div>
 
@@ -43,11 +34,7 @@
       <ul>
         <li><a href="#api-documentation">API Documentation</a></li>
       </ul></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -55,24 +42,15 @@
 
 ## About The Project
 
-This RESTful API with full CRUD (Create, Read, Update, Delete) capabilities was developed as part of the "Tongue" Node.js project for start2impact. It's designed to provide a robust and flexible backend solution, enabling seamless data management and interaction for applications. The API is crafted to support various frontend technologies or third-party services, offering a well-documented and user-friendly interface for developers. Whether you're building a web, mobile, or desktop application, the Tongue API facilitates efficient data handling and integration, enhancing the overall development workflow.
+This RESTful API, developed as part of the "Tongue" Node.js project for start2impact, provides full CRUD (Create, Read, Update, Delete) functionality to support efficient backend operations. Designed for flexibility, it facilitates seamless data management and integration with third-party services.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+With a developer-friendly and well-documented interface, this API is an ideal solution for robust and scalable backend systems, streamlining data handling and enhancing development workflows.
 
 ### Built With
 
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/)
 - MongoDB Atlas
-- [Redoc](https://redocly.com/)
-
-#### Libraries
-
-- [Mongoose](https://mongoosejs.com/)
-- [Helmet](https://helmetjs.github.io/)
-- [Cors](https://www.npmjs.com/package/cors)
-- [Morgan](https://www.npmjs.com/package/morgan)
-- [Compress](https://www.npmjs.com/package/compression)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -140,25 +118,21 @@ The Tongue API provides a robust set of endpoints for managing users, posts, and
 #### Users
 
 - **Create a New User**
-  - Endpoint: /users/
+  - Endpoint: api/users/
   - Method: POST
   - Description: Creates a new user in the database.
   - Request Body: Includes nickname, age, and city.
 - **Get All Users**
-  - Endpoint: /users/
+  - Endpoint: api/users/
   - Method: GET
   - Description: Retrieves a list of all registered users.
-- **Search Users**
-  - Endpoint: /users/search
-  - Method: GET
-  - Description: Searches for users based on provided query parameters like userName, userAge, userMinAge, userMaxAge, and userCity.
 - **Get User by ID**
   - Endpoint: /users/{id}
   - Method: GET
   - Description: Retrieves user information based on their unique ID.
 - **Update User by ID**
   - Endpoint: /users/{id}
-  - Method: PUT
+  - Method: PATCH
   - Description: Updates user information based on their unique ID.
 - **Delete User by ID**
   - Endpoint: /users/{id}
@@ -174,23 +148,23 @@ The Tongue API provides a robust set of endpoints for managing users, posts, and
 - **Get All Posts**
   - Endpoint: /posts/
   - Method: GET
-  - Description: Retrieves a list of all posts, with an option to minify the results.
+  - Description: Retrieves a list of all posts, in ordwer of creation date.
 - **Search Posts**
-  - Endpoint: /posts/search
+  - Endpoint: /posts/bydate/{date}
   - Method: GET
-  - Description: Searches for posts based on criteria like post and interaction dates, user city, etc.
+  - Description: Searches for posts based on a specific date.
 - **Get Post by ID**
   - Endpoint: /posts/{id}
   - Method: GET
   - Description: Retrieves a single post by its ID, with an option to minify the results.
 - **Update Post by ID**
   - Endpoint: /posts/{id}
-  - Method: PUT
-  - Description: Updates the details of an existing post.
+  - Method: PATCH
+  - Description: Updates the details of an existing post, only if you are the owner.
 - **Delete Post by ID**
   - Endpoint: /posts/{id}
   - Method: DELETE
-  - Description: Deletes a post from the database.
+  - Description: Deletes a post from the database, only if you are the owner.
 
 #### Interactions
 
@@ -201,7 +175,7 @@ The Tongue API provides a robust set of endpoints for managing users, posts, and
 - **Get All Interactions**
   - Endpoint: /interactions/
   - Method: GET
-  - Description: Retrieves a list of all interactions, with an option to minify the results.
+  - Description: Retrieves a list of all interactions.
 - **Search Interactions**
   - Endpoint: /interactions/search
   - Method: GET
@@ -209,37 +183,17 @@ The Tongue API provides a robust set of endpoints for managing users, posts, and
 - **Get Interaction by ID**
   - Endpoint: /interactions/{id}
   - Method: GET
-  - Description: Retrieves a single interaction by its ID, with an option to minify the results.
+  - Description: Retrieves a single interaction by its ID.
 - **Update Interaction by ID**
   - Endpoint: /interactions/{id}
   - Method: PUT
-  - Description: Updates the details of an existing interaction.
+  - Description: Updates the details of an existing interaction, Only if you are the owner.
 - **Delete Interaction by ID**
   - Endpoint: /interactions/{id}
   - Method: DELETE
-  - Description: Deletes an interaction from the database.
+  - Description: Deletes an interaction from the database, only if you are the owner of the interaction or the owner of the post.
 
-The API is designed to be intuitive, ensuring ease of use while providing detailed responses and error handling to facilitate integration and interaction with various front-end systems or third-party services.
-
-_For more examples, please refer to the [Documentation](https://tongue-api.vercel.app/docs/)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-
-## Roadmap
-
-- [x] Create a RESTfull API
-- [x] Add CRUD (Create, Read, Update, Delete) capabilities
-- [x] Create proper project structure
-- [x] Add Documentation
-  - [x] Add Openapi specifications
-  - [x] Add Documentation using ReDoc
-- [x] Add tests
-  - [x] Unitary tests
-  - [ ] Integration tests
-
-See the [open issues](https://github.com/Dantalian5/Tongue-API/issues) for a full list of proposed features (and known issues).
+The API is designed to be intuitive, ensuring ease of use while providing detailed responses and error handling.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -260,49 +214,14 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- CONTACT -->
 
 ## Contact
 
-- Website - [Marcos Valenzuela](https://marcosvalenzuela.netlify.app)
-- Frontend Mentor - [@Dantalian5](https://www.frontendmentor.io/profile/Dantalian5)
-- Github - [@Dantalian5](https://github.com/Dantalian5)
-- Linkedin - [Marcos Valenzuela](https://www.linkedin.com/in/marcos-valenzuela-coding)
-- Twitter - [@Dantalian5](https://www.twitter.com/Dantalian5)
+- Website - [SOYA](https://gatteoelmo.github.io/soya/)
+- Github - [@gatteoelmo](https://github.com/gatteoelmo)
+- Linkedin - [Matteo Gallardo](www.linkedin.com/in/matteo-gallardo-091562285)
 
-Project Link: [https://github.com/Dantalian5/Tongue-API](https://github.com/Dantalian5/Tongue-API)
+Project Link: [https://github.com/gatteoelmo/tongue-RESTApi.git](https://github.com/gatteoelmo/tongue-RESTApi.git)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-- [start2impact](https://www.start2impact.it)
-- [RealFaviconGenerator](https://realfavicongenerator.net)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/Dantalian5/Tongue-API.svg?style=for-the-badge
-[contributors-url]: https://github.com/Dantalian5/Tongue-API/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Dantalian5/Tongue-API.svg?style=for-the-badge
-[forks-url]: https://github.com/Dantalian5/Tongue-API/network/members
-[stars-shield]: https://img.shields.io/github/stars/Dantalian5/Tongue-API.svg?style=for-the-badge
-[stars-url]: https://github.com/Dantalian5/Tongue-API/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Dantalian5/Tongue-API.svg?style=for-the-badge
-[issues-url]: https://github.com/Dantalian5/Tongue-API/issues
-[license-shield]: https://img.shields.io/github/license/Dantalian5/Tongue-API.svg?style=for-the-badge
-[license-url]: https://github.com/Dantalian5/Tongue-API/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/marcos-valenzuela-coding

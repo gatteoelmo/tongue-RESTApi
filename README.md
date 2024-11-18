@@ -5,7 +5,7 @@
     <img src="public/favicon.png" alt="Logo" width="80" height="80">
   </a> -->
 
-<h1">Tongue_API</h3>
+<h1">Tongue_API</h1>
 
   <p>
     RESTful API with full CRUD (Create, Read, Update, Delete) capabilities, developed as part of the "Tongue" Node.js project for <a href="https://www.start2impact.it">start2impact</a>. 

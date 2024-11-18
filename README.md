@@ -136,12 +136,12 @@ The Tongue API provides a robust set of endpoints for managing users, posts, and
 - **Create a New Post**
   - Endpoint: /posts/
   - Method: POST
-  - Description: Creates a new post associated with an existing user.
+  - Description: Creates a new post associated with an existing user. It requires a title, content, and user ID.
 - **Get All Posts**
   - Endpoint: /posts/
   - Method: GET
   - Description: Retrieves a list of all posts, in ordwer of creation date.
-- **Search Posts**
+- **Search Posts by date**
   - Endpoint: /posts/bydate/{date}
   - Method: GET
   - Description: Searches for posts based on a specific date.
@@ -163,7 +163,7 @@ The Tongue API provides a robust set of endpoints for managing users, posts, and
 - **Create a New Interaction**
   - Endpoint: /interactions/
   - Method: POST
-  - Description: Creates a new interaction related to a user and a post.
+  - Description: Creates a new interaction related to a user and a post. It requires a type (like, comment), post ID, user ID, and content (only for comments).
 - **Get All Interactions**
   - Endpoint: /interactions/
   - Method: GET

@@ -6,17 +6,17 @@ POST http://localhost:1234/api/users/
 Content-Type: application/json
 
 {
-    "nickname": "Soya",
-    "age": 25,
-    "city": "Torino"
+    "nickname": "simonLimon",
+    "age": 20,
+    "city": "Milano"
 }
 
 ### modify a user
-PATCH http://localhost:1234/api/users/67363f1487490ca7c99e67d5
+PATCH http://localhost:1234/api/users/673b710d1043f700a3b48cbc
 Content-Type: application/json
 
 {
-    "city": "Turin"
+    "age": 21
 }
 
 ### delete a user
@@ -37,7 +37,7 @@ POST http://localhost:1234/api/posts/
 Content-Type: application/json
 
 {
-    "title": "buongiorno ad Matteo",
+    "title": "buongiorno da Matteo",
     "content": "ciaooo",
     "user": "673b41b53348a423e549abfb"
 }

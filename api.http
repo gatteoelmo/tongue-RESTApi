@@ -51,6 +51,14 @@ Content-Type: application/json
     "user": "67363f1487490ca7c99e67d5"
 }
 
+### delete a post - u only can delete if u are the owner
+DELETE http://localhost:1234/api/posts/67377acc81facdf55254407f
+Content-Type: application/json
+
+{
+    "user": "67363f1487490ca7c99e67d5"
+}
+
 
 ### show all interactions
 GET http://localhost:1234/api/interactions

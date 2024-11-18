@@ -18,7 +18,7 @@ app.use("/api/posts", postRoute);
 app.use("/api/interactions", interactionRoute);
 
 // setting up a server 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 1234;
 
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);

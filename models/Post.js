@@ -9,14 +9,6 @@ const postSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    // insertionDate: {
-    //     type: Date,
-    //     default: Date.now
-    // },
-    // updatedAt: {
-    //     type: Date,
-    //     default: Date.now
-    // },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -28,7 +20,8 @@ const postSchema = mongoose.Schema({
     }
 },
 
-{ timestamps: true });
+{ timestamps: true } // add createdAt and updatedAt automatically
+);
 
 // 
 

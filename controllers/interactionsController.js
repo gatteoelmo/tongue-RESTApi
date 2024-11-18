@@ -23,7 +23,7 @@ export const interactionController = {
             
 			// if these queries are not empty then add them to the filters
             if (userCity || userId || userName) {
-				userCity && (userQuery.city = new RegExp(userCity, 'i'));
+				userCity && (userQuery.city = new RegExp(userCity, 'i')); 
 				userId && (userQuery._id = new RegExp(userId, 'i'));
 				userName && (userQuery.nickname = new RegExp(userName, 'i'));
 			}
@@ -39,10 +39,11 @@ export const interactionController = {
 				path: 'user',
 				match: userQuery,
 			});
-			const filteredInteractions = interactions.filter(
-				interaction => interaction.user !== null
-			);
-			res.status(200).json(filteredInteractions);
+            // THE CODE BELOW IS FOR FILTERING OUT THE INTERACTIONS WHERE THE USER IS NULL
+			// const filteredInteractions = interactions.filter(
+			// 	interaction => interaction.user !== null
+			// );
+			res.status(200).json(interactions /* OR filteredInteractions */);
 		} catch (error) {
 			res.status(400).json({message: error.message});
 		}
@@ -50,6 +51,7 @@ export const interactionController = {
 
     getInteractionById: async (req, res) => {
         try {
+            // find the interaction by id that is a param of the request
             const interaction = await Interaction.findById(req.params.id, { __v: 0 });
             res.status(200).json(interaction);
         } catch (error) {
@@ -64,41 +66,41 @@ export const interactionController = {
         try {
             const { post: postId, user: userId, type, content } = req.body;
     
-            // Validazione del tipo di interazione
+            // validate the type of the interaction
             const validTypes = ["like", "comment"];
             if (!validTypes.includes(type)) {
                 return res.status(400).json({ message: "Invalid interaction type" });
             }
     
-            // Validazione del campo `content` se il tipo è `comment`
+            // if the type is comment, validate the content
             if (type === "comment" && (!content || typeof content !== "string")) {
                 return res.status(400).json({ message: "Content is required for comments" });
             }
     
-            // Trova il post e l'utente
+            // search for the post and the user
             const post = await Post.findById(postId).session(session);
             const user = await User.findById(userId).session(session);
     
-            // Controlla se il post o l'utente esistono
+            // the user and the post exist?
             if (!post || !user) {
                 return res.status(404).json({ message: "Post or User not found" });
             }
     
-            // Crea l'interazione
+            // create the interaction
             const interaction = await Interaction.create(
                 [{ type, post: postId, user: userId, content }], 
                 { session }
             );
     
-            // Aggiorna il post con l'ID della nuova interazione
+            // add the interaction to the post
             post.interactions.push(interaction[0]._id);
             await post.save({ session });
     
-            // Conferma la transazione
+            // commit the transaction
             await session.commitTransaction();
             session.endSession();
     
-            // Restituisci l'interazione creata, popolando i riferimenti
+            // populate the interaction
             const populatedInteraction = await Interaction.findById(interaction[0]._id)
                 .populate("post", "title")
                 .populate("user", ["nickname", "city"]);
@@ -109,10 +111,10 @@ export const interactionController = {
             });
     
         } catch (error) {
-            await session.abortTransaction(); // Annulla la transazione in caso di errore
+            await session.abortTransaction(); // cancel the transaction
             session.endSession();
     
-            // Restituisci un messaggio di errore
+            // handle the error
             res.status(500).json({ message: `Error in createInteraction: ${error.message}` });
         }
     },
@@ -122,46 +124,48 @@ export const interactionController = {
         session.startTransaction();
     
         try {
+            // search for the interaction by id
             const interaction = await Interaction.findById(req.params.id).session(session);
     
             if (!interaction) {
                 return res.status(404).json({ message: "Interaction not found" });
             }
     
+            // Destructure the request body
             const { user: userId, type, content } = req.body;
     
-            // Validazione del tipo di interazione
+            // validate the type of the interaction
             const validTypes = ["like", "comment"];
             if (!validTypes.includes(type)) {
                 return res.status(400).json({ message: "Invalid interaction type" });
             }
     
-            // Trova l'utente e verifica che sia autorizzato
+            // find the user and validate that the user is the owner of the interaction
             const user = await User.findById(userId).session(session);
             if (!user || user._id.toString() !== interaction.user.toString()) {
                 return res.status(403).json({ message: "You are not authorized to modify this interaction" });
             }
     
-            // Logica per la gestione del campo `content`
+            // Logic for type, if is comment must need content, if is like doesn't need content
             if (interaction.type === "comment" && type === "like") {
-                // Se il tipo cambia da "comment" a "like", usa $unset per rimuovere `content`
+                // if the type is change from comment to like, remove the content whit unset
                 await Interaction.updateOne(
                     { _id: interaction._id },
                     { $unset: { content: null } },
                     { session }
                 );
             } else if (type === "comment") {
-                // Se rimane "comment", verifica che `content` sia valido
+                // if the type is change from like to comment, validate the content
                 if (!content || typeof content !== "string") {
                     return res.status(400).json({ message: "Content is required for comments" });
                 }
-                interaction.content = content; // Aggiorna il contenuto
+                interaction.content = content; // update the content
             }
     
-            // Aggiorna il tipo
+            // update the type
             interaction.type = type;
     
-            // Salva le modifiche
+            // save the interaction
             await interaction.save({ session });
     
             await session.commitTransaction();

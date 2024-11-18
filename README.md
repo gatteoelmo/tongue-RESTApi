@@ -92,7 +92,7 @@ With a developer-friendly and well-documented interface, this API is an ideal so
 
 6. Start the server using nodemon
    ```sh
-   npm run dev
+   npm run dev (or npm start)
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

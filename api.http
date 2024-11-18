@@ -6,9 +6,9 @@ POST http://localhost:1234/api/users/
 Content-Type: application/json
 
 {
-    "nickname": "7.Ellie",
-    "age": 22,
-    "city": "Santa Cruz de Tenerife"
+    "nickname": "Soya",
+    "age": 25,
+    "city": "Torino"
 }
 
 ### modify a user
@@ -25,17 +25,21 @@ DELETE http://localhost:1234/api/users/67363f1487490ca7c99e67d5
 ### show all posts
 GET http://localhost:1234/api/posts/
 
+### show post by filtered date
+GET http://localhost:1234/api/posts/bydate/2024-11-18
+
+
 ### show a post by id
-GET http://localhost:1234/api/posts/67363f1487490ca7c99e67d5
+GET http://localhost:1234/api/posts/67372c3f88c1e0731cb36151
 
 ### create a new post that will has your id in json (you have to login to make a post)
 POST http://localhost:1234/api/posts/
 Content-Type: application/json
 
 {
-    "title": "prova con timestamps true",
-    "content": "prova con timestamps true",
-    "user": "67363f1487490ca7c99e67d5"
+    "title": "buongiorno ad Matteo",
+    "content": "ciaooo",
+    "user": "673b41b53348a423e549abfb"
 }
 
 ### modify a post - u only can change if u are the owner
@@ -47,12 +51,12 @@ Content-Type: application/json
     "user": "67363f1487490ca7c99e67d5"
 }
 
-### delete a post - u only can delete if u are the owner
-DELETE http://localhost:1234/api/posts/67377acc81facdf55254407f
-
 
 ### show all interactions
-GET http://localhost:1234/api/interactions/
+GET http://localhost:1234/api/interactions
+
+### search interaction by city and date with query params
+GET http://localhost:1234/api/interactions/search?userCity=Torino
 
 ### show a interaction by id
 GET http://localhost:1234/api/interactions/673792cc7a2ed0ae59057b58
@@ -63,9 +67,9 @@ Content-Type: application/json
 
 {
     "type": "comment",
-    "post": "67377acc81facdf55254407f",
-    "user": "67363f1487490ca7c99e67d5",
-    "content": "commento 5"
+    "post": "673b275137bf3ed74283b12f",
+    "user": "673b41b53348a423e549abfb",
+    "content": "urgente"
 }
 
 ### modify a interaction - u only can change if u are the owner
@@ -79,3 +83,8 @@ Content-Type: application/json
 
 ### delete a interaction - u only can delete if u are the owner
 DELETE http://localhost:1234/api/interactions/67379282971ffe8ee85417a9
+Content-Type: application/json
+
+{
+    "user" : "67363f1487490ca7c99e67d5"
+}

@@ -4,10 +4,53 @@ import { User } from "../models/User.js";
 export const postController = {
     getAllPosts: async (req, res) => {
         try {
-            const posts = await Post.find({}, {__v: 0 }).sort({ createdAt: -1 });
+            const posts = await Post.find()
+                .populate({
+                    path: 'interactions',
+                    select: 'type user content timestamp',
+                    populate: { path: 'user', select: 'nickname city' },
+                })
+                .sort({ createdAt: -1 });
+    
+            const postsWithAggregates = posts.map(post => {
+                const likeCount = post.interactions.filter(interaction => interaction.type === 'like').length;
+                const commentCount = post.interactions.filter(interaction => interaction.type === 'comment').length;
+    
+                return {
+                    ...post.toObject(),
+                    likeCount,
+                    commentCount,
+                };
+            });
+    
+            res.status(200).json(postsWithAggregates);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    filterPostsByDate : async (req, res) => {
+        const { date } = req.params;
+    
+        if (!date) {
+            return res.status(400).json({ message: 'Date query parameter is required' });
+        }
+    
+        try {
+            const startDate = new Date(date);
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 1); // Filtra per un giorno
+    
+            const posts = await Post.find({ createdAt: { $gte: startDate, $lt: endDate } })
+                .populate({
+                    path: 'interactions',
+                    select: 'type user timestamp',
+                    populate: { path: 'user', select: 'nickname city' },
+                })
+                .sort({ createdAt: -1 });
+    
             res.status(200).json(posts);
         } catch (error) {
-            res.status(500).json({ message: `from getAllPosts: ${error.message}` });
+            res.status(500).json({ error: error.message });
         }
     },
     getPostById: async (req, res) => {

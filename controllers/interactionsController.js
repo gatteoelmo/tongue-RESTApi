@@ -7,12 +7,47 @@ import { User } from "../models/User.js";
 export const interactionController = {
     getAllInteractions: async (req, res) => {
         try {
+            // find all interactions
             const interactions = await Interaction.find({__v: 0}).sort({ createdAt: -1 });
             res.status(200).json(interactions);
         } catch (error) {
             res.status(500).json({ message: `from getAllInteractions: ${error.message}` });
         }
     },
+
+    filterSearch : async (req, res) => {
+		try {
+			const interactionQuery = {}; // filter for interactions
+			const userQuery = {}; // filter for users
+			const {istartDate, iendDate, userId, userName, userCity} = req.query;         
+            
+			// if these queries are not empty then add them to the filters
+            if (userCity || userId || userName) {
+				userCity && (userQuery.city = new RegExp(userCity, 'i'));
+				userId && (userQuery._id = new RegExp(userId, 'i'));
+				userName && (userQuery.nickname = new RegExp(userName, 'i'));
+			}
+			if (istartDate || iendDate) {
+				interactionQuery.insertionDate = {};
+				istartDate &&
+					(interactionQuery.insertionDate.$gte = new Date(istartDate));
+				iendDate && (interactionQuery.insertionDate.$lte = new Date(iendDate));
+			}
+
+            // find the interactions 
+			const interactions = await Interaction.find(interactionQuery).populate({
+				path: 'user',
+				match: userQuery,
+			});
+			const filteredInteractions = interactions.filter(
+				interaction => interaction.user !== null
+			);
+			res.status(200).json(filteredInteractions);
+		} catch (error) {
+			res.status(400).json({message: error.message});
+		}
+	},
+
     getInteractionById: async (req, res) => {
         try {
             const interaction = await Interaction.findById(req.params.id, { __v: 0 });
@@ -21,6 +56,7 @@ export const interactionController = {
             res.status(500).json({ message: `from getInteractionById: ${error.message}` });
         }
     },
+
     createInteraction: async (req, res) => {
         const session = await mongoose.startSession(); 
         session.startTransaction();
@@ -80,6 +116,7 @@ export const interactionController = {
             res.status(500).json({ message: `Error in createInteraction: ${error.message}` });
         }
     },
+
     modifyInteraction: async (req, res) => {
         const session = await mongoose.startSession();
         session.startTransaction();
@@ -135,7 +172,7 @@ export const interactionController = {
                 interaction,
             });
         } catch (error) {
-            await session.abortTransaction(); // Annulla la transazione in caso di errore
+            await session.abortTransaction(); 
             session.endSession();
     
             res.status(500).json({ message: `Error in modifyInteraction: ${error.message}` });
@@ -144,19 +181,59 @@ export const interactionController = {
     
     
     deleteInteraction: async (req, res) => {
-        const session = await mongoose.startSession();  
-        session.startTransaction();
+        const session = await mongoose.startSession();
+        session.startTransaction(); 
+
         try {
-            const interaction = await Interaction.findById/*AndDelete*/(req.params.id).session(session);
-            const post = await Post.findById(interaction.post).session(session);
-            console.log(`interaction: ${interaction}`);
-            console.log(`post: ${post}`);
+            const interactionId = req.params.id;
+            const userId = req.body.user;
+    
+            // search for the interaction
+            const interaction = await Interaction.findById(interactionId).session(session);
             if (!interaction) {
+                await session.abortTransaction();
+                session.endSession();
                 return res.status(404).json({ message: "Interaction not found" });
             }
-            res.status(200).json(interaction);
+    
+            // find the post linked to the interaction
+            const post = await Post.findById(interaction.post).session(session);
+            if (!post) {
+                await session.abortTransaction();
+                session.endSession();
+                return res.status(404).json({ message: "Post not found" });
+            }
+    
+            // compare the owner of the interaction and the owner of the post
+            const ownerPost = post.user.toString();
+            const ownerInteraction = interaction.user.toString();
+            if (ownerPost !== userId && ownerInteraction !== userId) {
+                await session.abortTransaction();
+                session.endSession();
+                return res.status(403).json({ message: "You are not authorized to delete this interaction" });
+            }
+    
+            // delete the interaction
+            await Interaction.findByIdAndDelete(interactionId).session(session);
+    
+            // delete the id from the post
+            post.interactions = post.interactions.filter(
+                (interactionIdInPost) => interactionIdInPost.toString() !== interactionId
+            );
+            await post.save({ session });
+    
+            await session.commitTransaction();
+            session.endSession();
+    
+            res.status(200).json({
+                message: "Interaction deleted successfully",
+                interaction,
+            });
         } catch (error) {
+            await session.abortTransaction(); // cancel the transaction in case of error
+            session.endSession();
             res.status(500).json({ message: `from deleteInteraction: ${error.message}` });
         }
-    }  
+    }
+    
 }

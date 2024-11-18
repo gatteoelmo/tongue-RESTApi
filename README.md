@@ -84,9 +84,8 @@ With a developer-friendly and well-documented interface, this API is an ideal so
    For this project, you need access to the MongoDB NoSQL service to manage the databases. You can use a free MongoDB account, or alternatively, you can utilize the sample server provided with the project for a hassle-free setup.
 
    ```js
-   DATABASE_URL = <Your MongoDB Atlas URL + Api Key>;
-   DATABASE_URL_STRING = <Your MongoDB Atlas URL + Api Key>;
-   PORT = <Your PORT || 3000>>;
+   MONGO_URI = <Your MongoDB Atlas URL + Api Key>;
+   PORT = <Your PORT>;
    ```
 
 5. Update the necessary configurations in your config.js or any other configuration files your project might have. If you have database connections or external service configurations, specify them in the .env file.
